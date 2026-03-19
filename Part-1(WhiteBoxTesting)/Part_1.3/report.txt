@@ -34,11 +34,11 @@ Error #2
 - Commit message used: Error 2: Fix Dice.roll range to use 1-6 for both dice
 
 Error #3
-- Failing test(s):
-- Module:
-- Root cause:
-- Fix applied:
-- Commit message used:
+- Failing test(s): test_find_winner_should_pick_richest
+- Module: moneypoly/game.py
+- Root cause: Game.find_winner() used min(...) with net_worth, which selected the poorest player instead of the richest.
+- Fix applied: Replaced min(...) with max(...) in find_winner() to return the player with highest net worth.
+- Commit message used: Error 3: Fix find_winner to select highest net worth player
 
 Error #4
 - Failing test(s):
