@@ -20,11 +20,11 @@ How to run all tests:
 Error Log (fill incrementally, one commit per error):
 
 Error #1
-- Failing test(s):
-- Module:
-- Root cause:
-- Fix applied:
-- Commit message used:
+- Failing test(s): test_cards_remaining_empty_expected_zero
+- Module: moneypoly/cards.py
+- Root cause: CardDeck.cards_remaining() used modulo with len(self.cards) even when the deck was empty, causing ZeroDivisionError.
+- Fix applied: Added an empty-deck guard in cards_remaining() that returns 0 when self.cards is empty.
+- Commit message used: Error 1: Fix CardDeck empty-deck cards_remaining ZeroDivisionError
 
 Error #2
 - Failing test(s):
