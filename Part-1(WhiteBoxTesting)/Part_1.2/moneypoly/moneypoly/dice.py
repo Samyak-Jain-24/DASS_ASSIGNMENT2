@@ -1,3 +1,5 @@
+"""Dice utility for the MoneyPoly game."""
+
 import random
 
 class Dice:

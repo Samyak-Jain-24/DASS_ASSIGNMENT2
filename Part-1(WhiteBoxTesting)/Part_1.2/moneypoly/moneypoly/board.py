@@ -1,3 +1,9 @@
+"""Board representation for the MoneyPoly game.
+
+This module defines the Board class and constants that describe
+special tiles (Go, Jail, Chance, Community Chest, etc.).
+"""
+
 from moneypoly.property import Property, PropertyGroup
 from moneypoly.config import (
     JAIL_POSITION,

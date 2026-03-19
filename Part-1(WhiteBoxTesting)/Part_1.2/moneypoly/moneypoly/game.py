@@ -1,3 +1,5 @@
+"""Core game loop and rules for the MoneyPoly board game simulation."""
+
 from moneypoly.config import (
     JAIL_FINE,
     AUCTION_MIN_INCREMENT,
