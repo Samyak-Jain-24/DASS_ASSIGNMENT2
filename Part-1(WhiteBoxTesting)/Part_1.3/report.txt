@@ -1,0 +1,57 @@
+PART 1.3 - WHITE BOX TESTING REPORT
+
+Goal:
+- Cover branches (if/elif/else paths), variable-state transitions, and edge cases.
+- Use tests to expose logical defects.
+- Fix one defect at a time and commit each as: Error #<N>: <What You Changed>
+
+Test Suite Files (Part_1.3):
+- test_models_whitebox.py
+- test_board_bank_dice_whitebox.py
+- test_cards_whitebox.py
+- test_game_core_whitebox.py
+- test_game_tiles_cards_whitebox.py
+- test_game_transactions_menus_whitebox.py
+- test_main_ui_whitebox.py
+
+How to run all tests:
+- python -m unittest discover -s . -p "test_*_whitebox.py"
+
+Error Log (fill incrementally, one commit per error):
+
+Error #1
+- Failing test(s):
+- Module:
+- Root cause:
+- Fix applied:
+- Commit message used:
+
+Error #2
+- Failing test(s):
+- Module:
+- Root cause:
+- Fix applied:
+- Commit message used:
+
+Error #3
+- Failing test(s):
+- Module:
+- Root cause:
+- Fix applied:
+- Commit message used:
+
+Error #4
+- Failing test(s):
+- Module:
+- Root cause:
+- Fix applied:
+- Commit message used:
+
+Error #5
+- Failing test(s):
+- Module:
+- Root cause:
+- Fix applied:
+- Commit message used:
+
+(Continue this format for each additional error.)
