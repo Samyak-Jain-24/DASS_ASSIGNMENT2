@@ -1,3 +1,6 @@
+"""Console UI helpers for MoneyPoly: banners, tables, and prompts."""
+
+
 def print_banner(title):
     """Print a decorated section header."""
     width = 52
@@ -66,7 +69,7 @@ def safe_int_input(prompt, default=0):
     """
     try:
         return int(input(prompt))
-    except:
+    except (ValueError, TypeError):
         return default
 
 
