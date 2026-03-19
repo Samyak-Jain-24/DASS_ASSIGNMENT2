@@ -27,11 +27,11 @@ Error #1
 - Commit message used: Error 1: Fix CardDeck empty-deck cards_remaining ZeroDivisionError
 
 Error #2
-- Failing test(s):
-- Module:
-- Root cause:
-- Fix applied:
-- Commit message used:
+- Failing test(s): test_roll_calls_randint_with_full_six_sided_range
+- Module: moneypoly/dice.py
+- Root cause: Dice.roll() used random.randint(1, 5) for both dice, excluding face value 6.
+- Fix applied: Updated Dice.roll() to use random.randint(1, 6) for both die1 and die2.
+- Commit message used: Error 2: Fix Dice.roll range to use 1-6 for both dice
 
 Error #3
 - Failing test(s):
