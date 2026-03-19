@@ -1,7 +1,15 @@
+"""Bank component for the MoneyPoly game.
+
+This module defines the Bank class, which tracks the game's
+central cash pool and manages payments, collections, and loans.
+"""
+
 from moneypoly.config import BANK_STARTING_FUNDS
 
 
 class Bank:
+    """Central bank that manages cash reserves and loans."""
+
     def __init__(self):
         self._funds = BANK_STARTING_FUNDS
         self._loans_issued = []
