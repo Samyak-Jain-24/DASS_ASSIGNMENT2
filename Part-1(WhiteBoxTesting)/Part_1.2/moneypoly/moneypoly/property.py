@@ -11,10 +11,8 @@ class Property:
         self.position = position
         self.price = price
         self.base_rent = base_rent
-        self.mortgage_value = price // 2
         self.owner = None
         self.is_mortgaged = False
-        self.houses = 0
 
         # Register with the group immediately on creation
         self.group = group
@@ -57,6 +55,11 @@ class Property:
     def is_available(self):
         """Return True if this property can be purchased (unowned, not mortgaged)."""
         return self.owner is None and not self.is_mortgaged
+
+    @property
+    def mortgage_value(self):
+        """Return the mortgage value for this property (half the price)."""
+        return self.price // 2
 
     def __repr__(self):
         owner_name = self.owner.name if self.owner else "unowned"
