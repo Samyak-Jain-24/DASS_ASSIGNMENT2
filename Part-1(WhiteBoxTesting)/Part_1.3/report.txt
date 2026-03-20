@@ -41,16 +41,51 @@ Error #3
 - Commit message used: Error 3: Fix find_winner to select highest net worth player
 
 Error #4
-- Failing test(s):
-- Module:
-- Root cause:
+- Failing test(s): test_player_move_passing_go_collects_salary
+- Module: moneypoly/player.py
+- Root cause: Player.move() only awards Go salary when landing exactly on 0, not when passing Go.
+- Fix applied: Updated Player.move() to track old_position and award GO salary when forward movement crosses or lands on Go.
+- Commit message used: Error 4: Fix Player.move to award GO salary when passing Go
+
+Error #5
+- Failing test(s): test_bank_collect_negative_amount_is_ignored
+- Module: moneypoly/bank.py
+- Root cause: Bank.collect() docstring says negative amounts are ignored, but implementation subtracts from bank funds.
 - Fix applied:
 - Commit message used:
 
-Error #5
-- Failing test(s):
-- Module:
-- Root cause:
+Error #6
+- Failing test(s): test_bank_give_loan_reduces_bank_funds
+- Module: moneypoly/bank.py
+- Root cause: Bank.give_loan() docstring says loan reduces bank funds, but implementation does not reduce _funds.
+- Fix applied:
+- Commit message used:
+
+Error #7
+- Failing test(s): test_buy_property_with_exact_balance_should_succeed
+- Module: moneypoly/game.py
+- Root cause: Game.buy_property() rejects purchase when balance == price due to <= check.
+- Fix applied:
+- Commit message used:
+
+Error #8
+- Failing test(s): test_pay_rent_transfers_money_to_owner
+- Module: moneypoly/game.py
+- Root cause: Game.pay_rent() deducts rent from tenant but does not credit the property owner.
+- Fix applied:
+- Commit message used:
+
+Error #9
+- Failing test(s): test_jail_pay_fine_should_deduct_player_balance
+- Module: moneypoly/game.py
+- Root cause: Voluntary jail-fine path credits bank but does not deduct fine from the player.
+- Fix applied:
+- Commit message used:
+
+Error #10
+- Failing test(s): test_trade_should_credit_seller_cash
+- Module: moneypoly/game.py
+- Root cause: Game.trade() deducts buyer cash but does not add that cash to seller balance.
 - Fix applied:
 - Commit message used:
 
