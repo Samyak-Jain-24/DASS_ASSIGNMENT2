@@ -79,8 +79,8 @@ Error #9
 - Failing test(s): test_jail_pay_fine_should_deduct_player_balance
 - Module: moneypoly/game.py
 - Root cause: Voluntary jail-fine path credits bank but does not deduct fine from the player.
-- Fix applied:
-- Commit message used:
+- Fix applied: Updated _handle_jail_turn() voluntary fine path to deduct JAIL_FINE from the player before collecting it into the bank.
+- Commit message used: Error 9: Deduct player balance on voluntary jail fine payment
 
 Error #10
 - Failing test(s): test_trade_should_credit_seller_cash
