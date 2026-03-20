@@ -105,10 +105,10 @@ class BankWhiteBoxTests(unittest.TestCase):
         bank.collect(100)
         self.assertEqual(bank.get_balance(), BANK_STARTING_FUNDS + 100)
 
-    def test_collect_negative_decreases_funds_current_behavior(self):
+    def test_collect_negative_amount_is_ignored(self):
         bank = Bank()
         bank.collect(-50)
-        self.assertEqual(bank.get_balance(), BANK_STARTING_FUNDS - 50)
+        self.assertEqual(bank.get_balance(), BANK_STARTING_FUNDS)
 
     def test_payout_zero_or_negative_returns_zero(self):
         bank = Bank()

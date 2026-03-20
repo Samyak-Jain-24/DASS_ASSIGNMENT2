@@ -51,8 +51,8 @@ Error #5
 - Failing test(s): test_bank_collect_negative_amount_is_ignored
 - Module: moneypoly/bank.py
 - Root cause: Bank.collect() docstring says negative amounts are ignored, but implementation subtracts from bank funds.
-- Fix applied:
-- Commit message used:
+- Fix applied: Added an early return in Bank.collect() when amount is negative so both bank funds and collection totals remain unchanged.
+- Commit message used: Error 5: Ignore negative amounts in Bank.collect
 
 Error #6
 - Failing test(s): test_bank_give_loan_reduces_bank_funds
