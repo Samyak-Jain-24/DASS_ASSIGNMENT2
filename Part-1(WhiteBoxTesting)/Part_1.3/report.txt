@@ -72,8 +72,8 @@ Error #8
 - Failing test(s): test_pay_rent_transfers_money_to_owner
 - Module: moneypoly/game.py
 - Root cause: Game.pay_rent() deducts rent from tenant but does not credit the property owner.
-- Fix applied:
-- Commit message used:
+- Fix applied: Updated Game.pay_rent() to add collected rent to prop.owner after deducting it from the tenant.
+- Commit message used: Error 8: Transfer rent payment to property owner
 
 Error #9
 - Failing test(s): test_jail_pay_fine_should_deduct_player_balance
