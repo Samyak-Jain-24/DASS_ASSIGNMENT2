@@ -86,7 +86,7 @@ Error #10
 - Failing test(s): test_trade_should_credit_seller_cash
 - Module: moneypoly/game.py
 - Root cause: Game.trade() deducts buyer cash but does not add that cash to seller balance.
-- Fix applied:
-- Commit message used:
+- Fix applied: Updated Game.trade() to credit seller.add_money(cash_amount) when a trade succeeds.
+- Commit message used: Error 10: Credit seller cash during property trade
 
 (Continue this format for each additional error.)
