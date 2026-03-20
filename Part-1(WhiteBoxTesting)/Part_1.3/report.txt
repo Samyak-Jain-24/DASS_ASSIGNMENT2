@@ -58,8 +58,8 @@ Error #6
 - Failing test(s): test_bank_give_loan_reduces_bank_funds
 - Module: moneypoly/bank.py
 - Root cause: Bank.give_loan() docstring says loan reduces bank funds, but implementation does not reduce _funds.
-- Fix applied:
-- Commit message used:
+- Fix applied: Updated Bank.give_loan() to deduct loan amount from bank funds before crediting the player, and added a guard to prevent issuing loans larger than available bank reserves.
+- Commit message used: Error 6: Deduct bank funds when issuing emergency loans
 
 Error #7
 - Failing test(s): test_buy_property_with_exact_balance_should_succeed
