@@ -65,8 +65,8 @@ Error #7
 - Failing test(s): test_buy_property_with_exact_balance_should_succeed
 - Module: moneypoly/game.py
 - Root cause: Game.buy_property() rejects purchase when balance == price due to <= check.
-- Fix applied:
-- Commit message used:
+- Fix applied: Changed affordability check in Game.buy_property() from <= to < so exact-price purchases are allowed.
+- Commit message used: Error 7: Allow buying property with exact balance
 
 Error #8
 - Failing test(s): test_pay_rent_transfers_money_to_owner

@@ -66,10 +66,15 @@ class GamePropertyTransactionWhiteBoxTests(unittest.TestCase):
         g = Game(["A"])
         p = g.players[0]
         prop = Property("X", 1, 100, 10)
+
         p.balance = 100
-        self.assertFalse(g.buy_property(p, prop))
-        p.balance = 101
         self.assertTrue(g.buy_property(p, prop))
+
+        # Reset for underfunded branch check.
+        prop.owner = None
+        p.remove_property(prop)
+        p.balance = 99
+        self.assertFalse(g.buy_property(p, prop))
 
     def test_pay_rent_mortgaged_unowned_owned(self):
         g = Game(["A", "B"])
