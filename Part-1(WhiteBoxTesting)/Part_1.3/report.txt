@@ -152,4 +152,11 @@ Error #19
 - Fix applied: Read fields with .get(), ignore cards missing action, and default value to 0.
 - Commit message used: Error 19: Harden _apply_card against malformed cards
 
+Error #20
+- Failing test(s): test_main_rejects_less_than_two_players
+- Module: moneypoly/main.py
+- Root cause: main() started the game even when fewer than two players were provided.
+- Fix applied: Raised ValueError when fewer than two names are entered.
+- Commit message used: Error 20: Enforce minimum two players in main
+
 (Continue this format for each additional err                                       or.)

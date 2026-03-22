@@ -14,6 +14,8 @@ def main():
     """Create a Game instance from user input and start the session."""
     names = get_player_names()
     try:
+        if len(names) < 2:
+            raise ValueError("At least two players are required to start the game.")
         game = Game(names)
         game.run()
     except KeyboardInterrupt:
