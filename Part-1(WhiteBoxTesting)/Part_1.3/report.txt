@@ -138,4 +138,11 @@ Error #17
 - Fix applied: Wrapped loan issuance in try/except ValueError with a user-friendly message.
 - Commit message used: Error 17: Handle over-limit loan requests in interactive_menu
 
+Error #18
+- Failing test(s): test_card_collect_insufficient_bank_funds_is_safe
+- Module: moneypoly/game.py
+- Root cause: _card_collect() propagated ValueError when bank funds were insufficient.
+- Fix applied: Caught ValueError and treated payout as $0 with a clear message.
+- Commit message used: Error 18: Make _card_collect safe on insufficient funds
+
 (Continue this format for each additional err                                       or.)

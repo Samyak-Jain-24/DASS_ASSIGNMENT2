@@ -378,7 +378,11 @@ class Game:
 
     def _card_collect(self, player, value):
         """Handle a collect card action."""
-        amount = self.bank.pay_out(value)
+        try:
+            amount = self.bank.pay_out(value)
+        except ValueError as exc:
+            print(f"  Bank payout failed: {exc}")
+            amount = 0
         player.add_money(amount)
 
     def _card_pay(self, player, value):
