@@ -274,6 +274,9 @@ class Game:
 
     def auction_property(self, prop):
         """Run an open auction for `prop` among all active players."""
+        if prop.owner is not None:
+            print(f"  Auction skipped: {prop.name} is already owned.")
+            return
         print(f"\n  [Auction] Bidding on {prop.name} (listed at ${prop.price})")
         highest_bid = 0
         highest_bidder = None

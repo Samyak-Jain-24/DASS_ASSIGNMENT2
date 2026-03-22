@@ -117,4 +117,11 @@ Error #14
 - Fix applied: Included owned property values (price or mortgage_value when mortgaged) in net_worth().
 - Commit message used: Error 14: Include property values in Player.net_worth
 
+Error #15
+- Failing test(s): test_auction_property_rejects_already_owned_property
+- Module: moneypoly/game.py
+- Root cause: auction_property() allowed bidding on already-owned properties.
+- Fix applied: Added an early owner guard that skips the auction if prop.owner is set.
+- Commit message used: Error 15: Guard auction_property against already-owned tiles
+
 (Continue this format for each additional err                                       or.)
