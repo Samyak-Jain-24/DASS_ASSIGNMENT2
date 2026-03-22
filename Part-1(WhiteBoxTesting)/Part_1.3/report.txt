@@ -145,4 +145,11 @@ Error #18
 - Fix applied: Caught ValueError and treated payout as $0 with a clear message.
 - Commit message used: Error 18: Make _card_collect safe on insufficient funds
 
+Error #19
+- Failing test(s): test_apply_card_missing_action_is_ignored, test_apply_card_missing_value_defaults_to_zero
+- Module: moneypoly/game.py
+- Root cause: _apply_card() indexed card["action"] and card["value"] directly, raising KeyError.
+- Fix applied: Read fields with .get(), ignore cards missing action, and default value to 0.
+- Commit message used: Error 19: Harden _apply_card against malformed cards
+
 (Continue this format for each additional err                                       or.)

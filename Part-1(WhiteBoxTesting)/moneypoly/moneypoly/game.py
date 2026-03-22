@@ -360,9 +360,13 @@ class Game:
         """Apply the effect of a drawn Chance or Community Chest card."""
         if card is None:
             return
-        print(f"  Card drawn: \"{card['description']}\"")
-        action = card["action"]
-        value = card["value"]
+        description = card.get("description", "")
+        print(f"  Card drawn: \"{description}\"")
+        action = card.get("action")
+        if not action:
+            print("  Card ignored: missing action.")
+            return
+        value = card.get("value", 0)
         handlers = {
             "collect": self._card_collect,
             "pay": self._card_pay,
