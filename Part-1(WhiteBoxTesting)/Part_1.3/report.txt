@@ -131,4 +131,11 @@ Error #16
 - Fix applied: Added an early owner check that returns False if prop.owner is set.
 - Commit message used: Error 16: Reject already-owned property purchases
 
+Error #17
+- Failing test(s): test_interactive_menu_loan_over_limit_does_not_crash
+- Module: moneypoly/game.py
+- Root cause: interactive_menu() propagated ValueError from Bank.give_loan on over-limit requests.
+- Fix applied: Wrapped loan issuance in try/except ValueError with a user-friendly message.
+- Commit message used: Error 17: Handle over-limit loan requests in interactive_menu
+
 (Continue this format for each additional err                                       or.)
