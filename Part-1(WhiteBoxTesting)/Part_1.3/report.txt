@@ -110,4 +110,11 @@ Error #13
 - Fix applied: Added empty-deck guard returning "CardDeck(0 cards, next=none)".
 - Commit message used: Error 13: Make CardDeck.__repr__ safe for empty decks
 
+Error #14
+- Failing test(s): test_net_worth_includes_property_values, test_net_worth_uses_mortgage_value_for_mortgaged
+- Module: moneypoly/player.py
+- Root cause: Player.net_worth() returned only cash balance and ignored owned property values.
+- Fix applied: Included owned property values (price or mortgage_value when mortgaged) in net_worth().
+- Commit message used: Error 14: Include property values in Player.net_worth
+
 (Continue this format for each additional err                                       or.)
