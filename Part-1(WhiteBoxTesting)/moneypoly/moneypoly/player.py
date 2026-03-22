@@ -7,14 +7,96 @@ class Player:
     """Represents a single player in a MoneyPoly game."""
 
     def __init__(self, name, balance=STARTING_BALANCE):
-        self.name = name
-        self.balance = balance
-        self.position = 0
-        self.properties = []
-        self.in_jail = False
-        self.jail_turns = 0
-        self.get_out_of_jail_cards = 0
-        self.is_eliminated = False
+        self._state = {
+            "name": name,
+            "balance": balance,
+            "position": 0,
+            "properties": [],
+            "is_eliminated": False,
+            "in_jail": False,
+            "jail_turns": 0,
+            "cards": 0,
+        }
+
+    @property
+    def name(self):
+        """Return the player's name."""
+        return self._state["name"]
+
+    @name.setter
+    def name(self, value):
+        """Update the player's name."""
+        self._state["name"] = value
+
+    @property
+    def balance(self):
+        """Return the player's current cash balance."""
+        return self._state["balance"]
+
+    @balance.setter
+    def balance(self, value):
+        """Update the player's cash balance."""
+        self._state["balance"] = value
+
+    @property
+    def position(self):
+        """Return the player's current board position."""
+        return self._state["position"]
+
+    @position.setter
+    def position(self, value):
+        """Update the player's board position."""
+        self._state["position"] = value
+
+    @property
+    def properties(self):
+        """Return the list of properties owned by this player."""
+        return self._state["properties"]
+
+    @properties.setter
+    def properties(self, value):
+        """Replace the list of properties owned by this player."""
+        self._state["properties"] = value
+
+    @property
+    def is_eliminated(self):
+        """Return True if the player has been eliminated."""
+        return self._state["is_eliminated"]
+
+    @is_eliminated.setter
+    def is_eliminated(self, value):
+        """Update elimination status."""
+        self._state["is_eliminated"] = bool(value)
+
+    @property
+    def in_jail(self):
+        """Return whether the player is currently in jail."""
+        return self._state["in_jail"]
+
+    @in_jail.setter
+    def in_jail(self, value):
+        """Set the player's jail status."""
+        self._state["in_jail"] = bool(value)
+
+    @property
+    def jail_turns(self):
+        """Return the number of turns the player has spent in jail."""
+        return self._state["jail_turns"]
+
+    @jail_turns.setter
+    def jail_turns(self, value):
+        """Update the number of turns spent in jail."""
+        self._state["jail_turns"] = int(value)
+
+    @property
+    def get_out_of_jail_cards(self):
+        """Return the number of Get Out of Jail Free cards held."""
+        return self._state["cards"]
+
+    @get_out_of_jail_cards.setter
+    def get_out_of_jail_cards(self, value):
+        """Update the number of Get Out of Jail Free cards held."""
+        self._state["cards"] = int(value)
 
 
     def add_money(self, amount):
