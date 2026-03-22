@@ -103,4 +103,11 @@ Error #12
 - Fix applied: Added chance_deck and community_deck accessors that expose decks.
 - Commit message used: Error 12: Restore card deck accessors
 
-(Continue this format for each additional error.)
+Error #13
+- Failing test(s): test_carddeck_repr_safe_when_empty
+- Module: moneypoly/cards.py
+- Root cause: CardDeck.__repr__ used modulo with len(self.cards) and crashed on empty deck.
+- Fix applied: Added empty-deck guard returning "CardDeck(0 cards, next=none)".
+- Commit message used: Error 13: Make CardDeck.__repr__ safe for empty decks
+
+(Continue this format for each additional err                                       or.)
