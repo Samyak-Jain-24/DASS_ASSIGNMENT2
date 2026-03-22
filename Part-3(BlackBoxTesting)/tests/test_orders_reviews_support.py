@@ -43,6 +43,67 @@ def test_order_detail_missing(user_client):
 
 
 @pytest.mark.user
+def test_cancel_already_cancelled_order(user_client, admin_client):
+    products = admin_client.get_json("/api/v1/admin/products")
+    if not products:
+        pytest.skip("No products available")
+    product = products[0]
+    user_client.request("DELETE", "/api/v1/cart/clear")
+    add = user_client.request("POST", "/api/v1/cart/add", json={"product_id": product.get("product_id"), "quantity": 1})
+    if add.status_code != 200:
+        pytest.skip("Could not add product to cart")
+
+    checkout = user_client.request("POST", "/api/v1/checkout", json={"payment_method": "COD"})
+    if checkout.status_code != 200:
+        pytest.skip("Checkout failed")
+    order_id = assert_json(checkout).get("order_id")
+    if not order_id:
+        pytest.skip("Order ID missing from checkout response")
+
+    first = user_client.request("POST", f"/api/v1/orders/{order_id}/cancel")
+    assert_status(first, 200)
+    second = user_client.request("POST", f"/api/v1/orders/{order_id}/cancel")
+    assert_status(second, 400)
+
+
+@pytest.mark.user
+def test_cancel_restores_stock_exactly(user_client, admin_client):
+    products = admin_client.get_json("/api/v1/admin/products")
+    if len(products) < 2:
+        pytest.skip("Need at least two products")
+    product_a = products[0]
+    product_b = products[1]
+
+    stock_before = {
+        product_a.get("product_id"): product_a.get("stock", product_a.get("stock_quantity")),
+        product_b.get("product_id"): product_b.get("stock", product_b.get("stock_quantity")),
+    }
+    if stock_before[product_a.get("product_id")] is None or stock_before[product_b.get("product_id")] is None:
+        pytest.skip("Stock fields missing")
+
+    user_client.request("DELETE", "/api/v1/cart/clear")
+    add1 = user_client.request("POST", "/api/v1/cart/add", json={"product_id": product_a.get("product_id"), "quantity": 1})
+    add2 = user_client.request("POST", "/api/v1/cart/add", json={"product_id": product_b.get("product_id"), "quantity": 1})
+    if add1.status_code != 200 or add2.status_code != 200:
+        pytest.skip("Could not add products to cart")
+
+    checkout = user_client.request("POST", "/api/v1/checkout", json={"payment_method": "COD"})
+    if checkout.status_code != 200:
+        pytest.skip("Checkout failed")
+    order_id = assert_json(checkout).get("order_id")
+    if not order_id:
+        pytest.skip("Order ID missing from checkout response")
+
+    cancel = user_client.request("POST", f"/api/v1/orders/{order_id}/cancel")
+    assert_status(cancel, 200)
+
+    products_after = admin_client.get_json("/api/v1/admin/products")
+    after_map = {p.get("product_id"): p.get("stock", p.get("stock_quantity")) for p in products_after}
+    assert after_map.get(product_a.get("product_id")) == stock_before.get(product_a.get("product_id"))
+    assert after_map.get(product_b.get("product_id")) == stock_before.get(product_b.get("product_id"))
+
+
+@pytest.mark.user
 def test_cancel_delivered_order_if_any(user_client):
     resp = user_client.request("GET", "/api/v1/orders")
     assert_status(resp, 200)
@@ -114,6 +175,29 @@ def test_reviews_get_and_average(user_client, admin_client):
 
 
 @pytest.mark.user
+@pytest.mark.negative
+def test_reviews_nonexistent_product(user_client):
+    resp = user_client.request("GET", "/api/v1/products/9999999/reviews")
+    assert_status(resp, 404)
+
+
+@pytest.mark.user
+@pytest.mark.negative
+def test_reviews_invalid_types(user_client, admin_client):
+    products = admin_client.get_json("/api/v1/admin/products")
+    if not products:
+        pytest.skip("No products available")
+    product_id = products[0].get("product_id")
+    resp = user_client.request(
+        "POST",
+        f"/api/v1/products/{product_id}/reviews",
+        json={"rating": None, "comment": "Nice"},
+    )
+    if resp.status_code != 404:
+        assert resp.status_code in (400, 422)
+
+
+@pytest.mark.user
 @pytest.mark.boundary
 def test_reviews_invalid_rating(user_client, admin_client):
     products = admin_client.get_json("/api/v1/admin/products")
@@ -121,6 +205,28 @@ def test_reviews_invalid_rating(user_client, admin_client):
         pytest.skip("No products available")
     product_id = products[0].get("product_id")
     resp = user_client.request("POST", f"/api/v1/products/{product_id}/reviews", json={"rating": 0, "comment": "bad"})
+    assert_status(resp, 400)
+
+
+@pytest.mark.user
+@pytest.mark.boundary
+def test_reviews_invalid_rating_upper(user_client, admin_client):
+    products = admin_client.get_json("/api/v1/admin/products")
+    if not products:
+        pytest.skip("No products available")
+    product_id = products[0].get("product_id")
+    resp = user_client.request("POST", f"/api/v1/products/{product_id}/reviews", json={"rating": 6, "comment": "too high"})
+    assert_status(resp, 400)
+
+
+@pytest.mark.user
+@pytest.mark.boundary
+def test_reviews_invalid_rating_type(user_client, admin_client):
+    products = admin_client.get_json("/api/v1/admin/products")
+    if not products:
+        pytest.skip("No products available")
+    product_id = products[0].get("product_id")
+    resp = user_client.request("POST", f"/api/v1/products/{product_id}/reviews", json={"rating": "5", "comment": "type"})
     assert_status(resp, 400)
 
 
@@ -137,6 +243,64 @@ def test_reviews_invalid_comment_length(user_client, admin_client):
         json={"rating": 3, "comment": ""},
     )
     assert_status(resp, 400)
+
+
+@pytest.mark.user
+@pytest.mark.boundary
+def test_reviews_invalid_comment_max(user_client, admin_client):
+    products = admin_client.get_json("/api/v1/admin/products")
+    if not products:
+        pytest.skip("No products available")
+    product_id = products[0].get("product_id")
+    resp = user_client.request(
+        "POST",
+        f"/api/v1/products/{product_id}/reviews",
+        json={"rating": 5, "comment": "A" * 201},
+    )
+    assert_status(resp, 400)
+
+
+@pytest.mark.user
+@pytest.mark.negative
+def test_reviews_missing_comment(user_client, admin_client):
+    products = admin_client.get_json("/api/v1/admin/products")
+    if not products:
+        pytest.skip("No products available")
+    product_id = products[0].get("product_id")
+    resp = user_client.request(
+        "POST",
+        f"/api/v1/products/{product_id}/reviews",
+        json={"rating": 5},
+    )
+    assert_status(resp, 400)
+
+
+@pytest.mark.user
+def test_reviews_average_zero_when_none(user_client, admin_client):
+    products = admin_client.get_json("/api/v1/admin/products")
+    if not products:
+        pytest.skip("No products available")
+    target = None
+    for product in products[:10]:
+        product_id = product.get("product_id")
+        resp = user_client.request("GET", f"/api/v1/products/{product_id}/reviews")
+        if resp.status_code != 200:
+            continue
+        data = assert_json(resp)
+        reviews = data.get("reviews", []) if isinstance(data, dict) else data
+        avg = data.get("average_rating", 0) if isinstance(data, dict) else 0
+        if not reviews and float(avg) == 0:
+            target = product_id
+            break
+    if target is None:
+        pytest.skip("No product with zero reviews found")
+    resp = user_client.request("GET", f"/api/v1/products/{target}/reviews")
+    assert_status(resp, 200)
+    data = assert_json(resp)
+    reviews = data.get("reviews", []) if isinstance(data, dict) else data
+    avg = data.get("average_rating", 0) if isinstance(data, dict) else 0
+    assert reviews == []
+    assert float(avg) == 0
 
 
 @pytest.mark.user
@@ -174,12 +338,97 @@ def test_support_ticket_flow(user_client):
 
 
 @pytest.mark.user
+def test_support_ticket_backward_transition(user_client):
+    create = user_client.request(
+        "POST",
+        "/api/v1/support/ticket",
+        json={"subject": "Delay", "message": "Check status"},
+    )
+    assert_status(create, 200)
+    ticket = assert_json(create)
+    ticket_id = ticket.get("ticket_id")
+
+    update = user_client.request(
+        "PUT",
+        f"/api/v1/support/tickets/{ticket_id}",
+        json={"status": "IN_PROGRESS"},
+    )
+    assert_status(update, 200)
+
+    invalid = user_client.request(
+        "PUT",
+        f"/api/v1/support/tickets/{ticket_id}",
+        json={"status": "OPEN"},
+    )
+    assert_status(invalid, 400)
+
+
+@pytest.mark.user
+def test_support_ticket_invalid_status_value(user_client):
+    create = user_client.request(
+        "POST",
+        "/api/v1/support/ticket",
+        json={"subject": "Delay", "message": "Check status"},
+    )
+    assert_status(create, 200)
+    ticket = assert_json(create)
+    ticket_id = ticket.get("ticket_id")
+
+    invalid = user_client.request(
+        "PUT",
+        f"/api/v1/support/tickets/{ticket_id}",
+        json={"status": "REOPENED"},
+    )
+    assert_status(invalid, 400)
+
+
+@pytest.mark.user
+def test_support_ticket_closed_cannot_reopen(user_client):
+    create = user_client.request(
+        "POST",
+        "/api/v1/support/ticket",
+        json={"subject": "Delay", "message": "Check status"},
+    )
+    assert_status(create, 200)
+    ticket = assert_json(create)
+    ticket_id = ticket.get("ticket_id")
+
+    update = user_client.request(
+        "PUT",
+        f"/api/v1/support/tickets/{ticket_id}",
+        json={"status": "IN_PROGRESS"},
+    )
+    assert_status(update, 200)
+
+    update = user_client.request(
+        "PUT",
+        f"/api/v1/support/tickets/{ticket_id}",
+        json={"status": "CLOSED"},
+    )
+    assert_status(update, 200)
+
+    invalid = user_client.request(
+        "PUT",
+        f"/api/v1/support/tickets/{ticket_id}",
+        json={"status": "IN_PROGRESS"},
+    )
+    assert_status(invalid, 400)
+
+
+@pytest.mark.user
 @pytest.mark.boundary
 def test_support_ticket_invalid_fields(user_client):
     resp = user_client.request(
         "POST",
         "/api/v1/support/ticket",
         json={"subject": "ABCD", "message": "M"},
+    )
+    assert_status(resp, 400)
+
+    resp = user_client.request(
+        "POST",
+        "/api/v1/support/ticket",
+        json={},
     )
     assert_status(resp, 400)
 
@@ -190,3 +439,13 @@ def test_support_tickets_list(user_client):
     assert_status(resp, 200)
     data = assert_json(resp)
     assert isinstance(data, list)
+
+
+@pytest.mark.user
+def test_support_ticket_update_missing(user_client):
+    resp = user_client.request(
+        "PUT",
+        "/api/v1/support/tickets/99999999",
+        json={"status": "IN_PROGRESS"},
+    )
+    assert_status(resp, 404)

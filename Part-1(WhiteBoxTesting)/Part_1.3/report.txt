@@ -159,4 +159,4 @@ Error #20
 - Fix applied: Raised ValueError when fewer than two names are entered.
 - Commit message used: Error 20: Enforce minimum two players in main
 
-(Continue this format for each additional err                                       or.)
+(Continue this format for each additional error.)
