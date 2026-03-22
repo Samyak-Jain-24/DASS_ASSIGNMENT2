@@ -4,7 +4,7 @@ This module defines the Board class and constants that describe
 special tiles (Go, Jail, Chance, Community Chest, etc.).
 """
 
-from moneypoly.property import Property, PropertyGroup
+from moneypoly.property import Property, PropertyGroup, PropertySpec
 from moneypoly.config import (
     JAIL_POSITION,
     GO_TO_JAIL_POSITION,
@@ -59,28 +59,28 @@ class Board:
         """Instantiate every purchasable property and return as a list."""
         g = self.groups
         return [
-            Property("Mediterranean Avenue",   1,  60,  2,  group=g["brown"]),
-            Property("Baltic Avenue",          3,  60,  4,  group=g["brown"]),
-            Property("Oriental Avenue",        6,  100, 6,  group=g["light_blue"]),
-            Property("Vermont Avenue",         8,  100, 6,  group=g["light_blue"]),
-            Property("Connecticut Avenue",     9,  120, 8,  group=g["light_blue"]),
-            Property("St. Charles Place",      11, 140, 10, group=g["pink"]),
-            Property("States Avenue",          13, 140, 10, group=g["pink"]),
-            Property("Virginia Avenue",        14, 160, 12, group=g["pink"]),
-            Property("St. James Place",        16, 180, 14, group=g["orange"]),
-            Property("Tennessee Avenue",       18, 180, 14, group=g["orange"]),
-            Property("New York Avenue",        19, 200, 16, group=g["orange"]),
-            Property("Kentucky Avenue",        21, 220, 18, group=g["red"]),
-            Property("Indiana Avenue",         23, 220, 18, group=g["red"]),
-            Property("Illinois Avenue",        24, 240, 20, group=g["red"]),
-            Property("Atlantic Avenue",        26, 260, 22, group=g["yellow"]),
-            Property("Ventnor Avenue",         27, 260, 22, group=g["yellow"]),
-            Property("Marvin Gardens",         29, 280, 24, group=g["yellow"]),
-            Property("Pacific Avenue",         31, 300, 26, group=g["green"]),
-            Property("North Carolina Avenue",  32, 300, 26, group=g["green"]),
-            Property("Pennsylvania Avenue",    34, 320, 28, group=g["green"]),
-            Property("Park Place",             37, 350, 35, group=g["dark_blue"]),
-            Property("Boardwalk",              39, 400, 50, group=g["dark_blue"]),
+            Property(PropertySpec("Mediterranean Avenue",   1,  60,  2),  group=g["brown"]),
+            Property(PropertySpec("Baltic Avenue",          3,  60,  4),  group=g["brown"]),
+            Property(PropertySpec("Oriental Avenue",        6,  100, 6),  group=g["light_blue"]),
+            Property(PropertySpec("Vermont Avenue",         8,  100, 6),  group=g["light_blue"]),
+            Property(PropertySpec("Connecticut Avenue",     9,  120, 8),  group=g["light_blue"]),
+            Property(PropertySpec("St. Charles Place",      11, 140, 10), group=g["pink"]),
+            Property(PropertySpec("States Avenue",          13, 140, 10), group=g["pink"]),
+            Property(PropertySpec("Virginia Avenue",        14, 160, 12), group=g["pink"]),
+            Property(PropertySpec("St. James Place",        16, 180, 14), group=g["orange"]),
+            Property(PropertySpec("Tennessee Avenue",       18, 180, 14), group=g["orange"]),
+            Property(PropertySpec("New York Avenue",        19, 200, 16), group=g["orange"]),
+            Property(PropertySpec("Kentucky Avenue",        21, 220, 18), group=g["red"]),
+            Property(PropertySpec("Indiana Avenue",         23, 220, 18), group=g["red"]),
+            Property(PropertySpec("Illinois Avenue",        24, 240, 20), group=g["red"]),
+            Property(PropertySpec("Atlantic Avenue",        26, 260, 22), group=g["yellow"]),
+            Property(PropertySpec("Ventnor Avenue",         27, 260, 22), group=g["yellow"]),
+            Property(PropertySpec("Marvin Gardens",         29, 280, 24), group=g["yellow"]),
+            Property(PropertySpec("Pacific Avenue",         31, 300, 26), group=g["green"]),
+            Property(PropertySpec("North Carolina Avenue",  32, 300, 26), group=g["green"]),
+            Property(PropertySpec("Pennsylvania Avenue",    34, 320, 28), group=g["green"]),
+            Property(PropertySpec("Park Place",             37, 350, 35), group=g["dark_blue"]),
+            Property(PropertySpec("Boardwalk",              39, 400, 50), group=g["dark_blue"]),
         ]
 
     def get_property_at(self, position):

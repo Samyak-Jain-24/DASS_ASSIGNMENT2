@@ -1,16 +1,28 @@
 """Property and property-group models for the MoneyPoly board game."""
 
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class PropertySpec:
+    """Immutable property specification used during board setup."""
+
+    name: str
+    position: int
+    price: int
+    base_rent: int
+
 
 class Property:
     """Represents a single purchasable property tile on the MoneyPoly board."""
 
     FULL_GROUP_MULTIPLIER = 2
 
-    def __init__(self, name, position, price, base_rent, group=None):
-        self.name = name
-        self.position = position
-        self.price = price
-        self.base_rent = base_rent
+    def __init__(self, spec, group=None):
+        self.name = spec.name
+        self.position = spec.position
+        self.price = spec.price
+        self.base_rent = spec.base_rent
         self.owner = None
         self.is_mortgaged = False
 
