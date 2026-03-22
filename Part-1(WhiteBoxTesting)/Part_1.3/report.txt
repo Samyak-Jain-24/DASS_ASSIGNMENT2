@@ -124,4 +124,11 @@ Error #15
 - Fix applied: Added an early owner guard that skips the auction if prop.owner is set.
 - Commit message used: Error 15: Guard auction_property against already-owned tiles
 
+Error #16
+- Failing test(s): test_buy_property_rejects_already_owned_property
+- Module: moneypoly/game.py
+- Root cause: buy_property() did not guard against already-owned properties and could overwrite ownership.
+- Fix applied: Added an early owner check that returns False if prop.owner is set.
+- Commit message used: Error 16: Reject already-owned property purchases
+
 (Continue this format for each additional err                                       or.)

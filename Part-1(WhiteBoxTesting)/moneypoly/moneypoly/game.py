@@ -192,6 +192,9 @@ class Game:
         Purchase `prop` on behalf of `player`.
         Returns True on success, False if the player cannot afford it.
         """
+        if prop.owner is not None:
+            print(f"  {prop.name} is already owned.")
+            return False
         if player.balance < prop.price:
             print(f"  {player.name} cannot afford {prop.name} (${prop.price}).")
             return False
