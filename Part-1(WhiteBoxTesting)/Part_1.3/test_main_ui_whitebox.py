@@ -43,7 +43,7 @@ class MainWhiteBoxTests(unittest.TestCase):
             self.assertIn("Game interrupted", buf.getvalue())
 
     def test_main_value_error_path(self):
-        with patch.object(main_mod, "get_player_names", return_value=["A"]), patch("main.Game", side_effect=ValueError("bad setup")):
+        with patch.object(main_mod, "get_player_names", return_value=["A", "B"]), patch("main.Game", side_effect=ValueError("bad setup")):
             buf = io.StringIO()
             with redirect_stdout(buf):
                 main_mod.main()
