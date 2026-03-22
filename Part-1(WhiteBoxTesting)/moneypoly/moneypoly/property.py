@@ -18,11 +18,22 @@ class Property:
 
     FULL_GROUP_MULTIPLIER = 2
 
-    def __init__(self, spec, group=None):
-        self.name = spec.name
-        self.position = spec.position
-        self.price = spec.price
-        self.base_rent = spec.base_rent
+    def __init__(self, name_or_spec, position=None, price=None, base_rent=None, group=None):
+        """Create a Property from a PropertySpec or from legacy parameters."""
+        # pylint: disable=too-many-arguments,too-many-positional-arguments
+        if isinstance(name_or_spec, PropertySpec):
+            spec = name_or_spec
+            self.name = spec.name
+            self.position = spec.position
+            self.price = spec.price
+            self.base_rent = spec.base_rent
+        else:
+            if position is None or price is None or base_rent is None:
+                raise ValueError("Position, price, and base_rent are required")
+            self.name = name_or_spec
+            self.position = position
+            self.price = price
+            self.base_rent = base_rent
         self.owner = None
         self.is_mortgaged = False
 

@@ -89,4 +89,11 @@ Error #10
 - Fix applied: Updated Game.trade() to credit seller.add_money(cash_amount) when a trade succeeds.
 - Commit message used: Error 10: Credit seller cash during property trade
 
+Error #11
+- Failing test(s): multiple Property construction tests (Property.__init__ signature mismatch)
+- Module: moneypoly/property.py
+- Root cause: Property.__init__ was refactored to accept only PropertySpec, breaking tests that pass legacy parameters.
+- Fix applied: Added backward-compatible Property.__init__ that accepts either PropertySpec or legacy args.
+- Commit message used: Error 11: Restore Property constructor compatibility
+
 (Continue this format for each additional error.)
