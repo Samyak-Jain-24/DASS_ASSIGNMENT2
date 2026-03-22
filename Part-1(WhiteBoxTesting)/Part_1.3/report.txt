@@ -96,4 +96,11 @@ Error #11
 - Fix applied: Added backward-compatible Property.__init__ that accepts either PropertySpec or legacy args.
 - Commit message used: Error 11: Restore Property constructor compatibility
 
+Error #12
+- Failing test(s): test_move_resolve_chance_draws_card, test_move_resolve_community_draws_card
+- Module: moneypoly/game.py
+- Root cause: Game refactor removed chance_deck/community_deck attributes used by tests.
+- Fix applied: Added chance_deck and community_deck accessors that expose decks.
+- Commit message used: Error 12: Restore card deck accessors
+
 (Continue this format for each additional error.)

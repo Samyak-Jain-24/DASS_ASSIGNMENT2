@@ -34,6 +34,46 @@ class Game:
             "community": CardDeck(COMMUNITY_CHEST_CARDS),
         }
 
+    @property
+    def chance_deck(self):
+        """Expose the chance deck for test compatibility."""
+        return self.decks["chance"]
+
+    @property
+    def community_deck(self):
+        """Expose the community chest deck for test compatibility."""
+        return self.decks["community"]
+
+    @property
+    def current_index(self):
+        """Return the current player index."""
+        return self._turn_state["current_index"]
+
+    @current_index.setter
+    def current_index(self, value):
+        """Update the current player index."""
+        self._turn_state["current_index"] = value
+
+    @property
+    def turn_number(self):
+        """Return the current turn number."""
+        return self._turn_state["turn_number"]
+
+    @turn_number.setter
+    def turn_number(self, value):
+        """Update the current turn number."""
+        self._turn_state["turn_number"] = value
+
+    @property
+    def running(self):
+        """Return whether the game loop is running."""
+        return self._turn_state["running"]
+
+    @running.setter
+    def running(self, value):
+        """Update running status for the game loop."""
+        self._turn_state["running"] = bool(value)
+
     def current_player(self):
         """Return the Player whose turn it currently is."""
         return self.players[self._turn_state["current_index"]]
