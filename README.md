@@ -1,10 +1,10 @@
-# DASS_ASSIGNMENT2
+﻿# TestingAndDebugging
 
 OneDrive Link:
 https://1drv.ms/f/c/55aaaea708d50778/IgBgXe6sYzF6TI9-hlpKjZuYAUGm9hE81-xiE38rxCYuSKY?e=SlnGVO
 
 GitHub Repository:
-- https://github.com/Samyak-Jain-24/DASS_ASSIGNMENT2
+- https://github.com/Samyak-Jain-24/TestingAndDebugging
 
 This repository contains three parts:
 - Whitebox Testing
@@ -17,11 +17,11 @@ Location:
 - whitebox/
 
 Run the code:
-1. cd DASS_ASSIGNMENT2/whitebox/code
+1. cd TestingAndDebugging/whitebox/code
 2. python main.py
 
 Run the tests:
-1. cd DASS_ASSIGNMENT2
+1. cd TestingAndDebugging
 2. python -m pytest whitebox/tests -q
 
 ## 2) Integration
@@ -30,11 +30,11 @@ Location:
 - integration/
 
 Run the code (demo flow):
-1. cd DASS_ASSIGNMENT2
+1. cd TestingAndDebugging
 2. python -m integration.code.main
 
 Run the integration tests:
-1. cd DASS_ASSIGNMENT2
+1. cd TestingAndDebugging
 2. python integration/tests/integration_test_runner.py
 
 ## 3) Blackbox
@@ -50,7 +50,7 @@ Run the tests:
 1. Start QuickCart server (default expected URL: http://localhost:8080).
 2. Set required environment variable QUICKCART_ROLL_NUMBER.
 3. Optional: set QUICKCART_BASE_URL and QUICKCART_USER_ID.
-4. cd DASS_ASSIGNMENT2
+4. cd TestingAndDebugging
 5. python -m pytest blackbox/tests -q
 
 Example (PowerShell):
